@@ -1,0 +1,38 @@
+title = "Trigger - file creation"  # The task title
+version = "0.1.0"                  # Current version
+authors = [ "Jarbas" ]             # Array with this task authors
+date = 2016-05-28T03:57:00         # Current version release date
+categories = "trigger"             # Action or trigger
+tags = [ "filesystem" ]            # Easier task search
+min_jarbas_version = "0.1.0"       # Minimum Jarbas version required
+
+# The programming language that this task need
+[[languages]]
+name = "python"
+version = "2.7.11"
+
+[[inputs]]
+name = "dirPath"
+type = "dir"
+description = "Dir to be monitored"
+mandatory = true
+
+[[inputs]]
+name = "reqUrl"
+type = "urq"
+description = "Jarbas daemon request url"
+mandatory = true
+
+[[inputs]]
+name = "triggerID"
+type = "int"
+description = "Jarbas trigger ID"
+mandatory = true
+
+[[outputs]]
+name = "outFilePath"
+type = "string"
+
+[[outputs]]
+name = "triggerID"
+type = "int"

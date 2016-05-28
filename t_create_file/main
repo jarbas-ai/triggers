@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+def t_create_file(jsonStr):
+    # Loading json string as a dictionary
+    jsonDict = json.loads(jsonStr)
+
+    # Loading variables from the json string
+    filePath = jsonDict["filePath"]
+    reqUrl = jsonDict["reqUrl"]
+    triggerID = jsonDict["triggerID"]
+
+
+    # CODE
+    class MyHandler(FileSystemEventHandler):
+        def on_created(self, event):
+            data = {'outFilePath': event.src_path, 'triggerID': triggerID}
+            req = urllib2.Request(reqUrl)
+            req.add_header('Content-Type', 'application/json')
+            response = urllib2.urlopen(req, json.dumps(data))
+
+    event_handler = MyHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path=filePath, recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+
+# Function Execution
+t_create_file(sys.argv[1],sys.argv[2])
